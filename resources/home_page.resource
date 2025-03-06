@@ -4,12 +4,14 @@ Resource    ../locators/home_locators.resource
 Variables   ../variables/common_variables.py
 
 *** Variables ***
-${USER_DATA_DIR_ID}  ${EMPTY}  # Defina uma variável vazia se você não usar diretamente aqui.
+${USER_DATA_DIR_ID}  ${EMPTY}
 ${USER_DATA_DIR}   /home/runner/.config/google-chrome-${USER_DATA_DIR_ID}
 
 *** Keywords ***
 Abrir navegador
-    ${options}=    Create List    --user-data-dir=${USER_DATA_DIR}    --no-sandbox
+    ${options}=    Evaluate    sys = __import__('selenium.webdriver.chrome.options'); sys.Options()    modules=sys
+    Call Method    ${options}    add_argument    --user-data-dir=${USER_DATA_DIR}
+    Call Method    ${options}    add_argument    --no-sandbox
     Create WebDriver  Chrome  options=${options}
     Go To  ${BASE_URL}
     Maximize Browser Window
