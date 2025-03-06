@@ -26,5 +26,4 @@ jobs:
         pip install robotframework-seleniumlibrary  # Instale a biblioteca do Selenium para o Robot Framework
     
     - name: Run Robot Framework Tests
-      run: 
-        robot --variable USER_DATA_DIR:/home/runner/.config/google-chrome-${{ github.run_id }} tests/
+      run: robot --variable USER_DATA_DIR_ID=${{ github.run_id }} tests/

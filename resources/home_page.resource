@@ -4,11 +4,14 @@ Resource    ../locators/home_locators.resource
 Variables   ../variables/common_variables.py
 
 *** Variables ***
-${USER_DATA_DIR}   /home/runner/.config/google-chrome-${{ github.run_id }}
+${USER_DATA_DIR_ID}  ${EMPTY}  # Defina uma variável vazia se você não usar diretamente aqui.
+${USER_DATA_DIR}   /home/runner/.config/google-chrome-${USER_DATA_DIR_ID}
 
 *** Keywords ***
 Abrir navegador
-    Open Browser    ${BASE_URL}    ${BROWSER}    options=--user-data-dir=${USER_DATA_DIR}
+    ${options}=    Create List    --user-data-dir=${USER_DATA_DIR}    --no-sandbox
+    Create WebDriver  Chrome  options=${options}
+    Go To  ${BASE_URL}
     Maximize Browser Window
 
 Acessar página de login
