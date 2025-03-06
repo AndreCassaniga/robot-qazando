@@ -1,0 +1,5 @@
+# Arquivos gerados
+results
+__pycache__/
+.vscode/
+.idea/
