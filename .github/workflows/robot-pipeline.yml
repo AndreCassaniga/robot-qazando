@@ -27,4 +27,4 @@ jobs:
     
     - name: Run Robot Framework Tests
       run: 
-        robot tests/    # Substitua "tests/" pelo diretório onde seus testes estão localizados
+        robot tests/    # Substitua "tests/" pelo diretório onde seus testes estão localizados.
