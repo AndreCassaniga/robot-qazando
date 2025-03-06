@@ -26,5 +26,5 @@ Fechar navegador
 *** Keywords ***
 Create Chrome Options
     [Arguments]    ${user_data_dir}
-    ${options}=    Create Dictionary    --user-data-dir=${user_data_dir}    --no-sandbox
-    Create WebDriver    Chrome    options=${options}
+    ${options}=    Create Dictionary    --user-data-dir=${user_data_dir}
+    Create WebDriver    Chrome    options=${options}    arguments=--no-sandbox
