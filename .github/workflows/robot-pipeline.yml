@@ -1,0 +1,29 @@
+name: Run Robot Framework Tests
+
+on:
+  pull_request:
+    branches:
+      - master  # Altere para a branch "master"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # ou o sistema operacional de sua escolha
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12'  # ou outra versão de Python que você está utilizando
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install robotframework
+        pip install selenium  # ou outras bibliotecas necessárias
+    
+    - name: Run Robot Framework Tests
+      run: 
+        robot tests/    # Substitua "tests/" pelo diretório onde seus testes estão localizados
