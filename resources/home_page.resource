@@ -9,12 +9,9 @@ ${USER_DATA_DIR}   /home/runner/.config/google-chrome-${USER_DATA_DIR_ID}
 
 *** Keywords ***
 Abrir navegador
-    ${options}=    Create Chrome Options
-    Add Chrome Option    ${options}    --user-data-dir=${USER_DATA_DIR}
-    Add Chrome Option    ${options}    --no-sandbox
-    Create WebDriver  Chrome  options=${options}
-    Go To  ${BASE_URL}
+    Create Chrome Options    ${USER_DATA_DIR}
     Maximize Browser Window
+    Go To    ${BASE_URL}
 
 Acessar página de login
     Wait Until Element Is Visible  ${LOGIN_BUTTON}  timeout=10s
@@ -28,11 +25,6 @@ Fechar navegador
 
 *** Keywords ***
 Create Chrome Options
-    [Arguments]  ${options}=None
-    Run Keyword If    '${options}'=='None'    Set Variable    ${options}    ${EMPTY}
-    ${options}=    Evaluate    sys = __import__('selenium.webdriver.chrome.options'); sys.Options()    modules=sys
-    Set Variable    ${options}    ${options}
-
-Add Chrome Option
-    [Arguments]    ${options}    ${option}
-    Call Method    ${options}    add_argument    ${option}
+    [Arguments]    ${user_data_dir}
+    ${options}=    Create Dictionary    --user-data-dir=${user_data_dir}    --no-sandbox
+    Create WebDriver    Chrome    options=${options}
