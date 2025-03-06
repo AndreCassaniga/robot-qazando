@@ -23,6 +23,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install robotframework
         pip install selenium  # ou outras bibliotecas necessárias
+        pip install robotframework-seleniumlibrary  # Instale a biblioteca do Selenium para o Robot Framework
     
     - name: Run Robot Framework Tests
       run: 
