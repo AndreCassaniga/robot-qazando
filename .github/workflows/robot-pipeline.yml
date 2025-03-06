@@ -27,4 +27,4 @@ jobs:
     
     - name: Run Robot Framework Tests
       run: 
-        robot tests/    # Substitua "tests/" pelo diretório onde seus testes estão localizados.
+        robot --variable USER_DATA_DIR:/home/runner/.config/google-chrome tests/
