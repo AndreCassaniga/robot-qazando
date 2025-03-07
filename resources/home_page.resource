@@ -9,7 +9,7 @@ Abrir navegador
     Call Method    ${chrome_options}    add_argument    --disable-gpu
     Call Method    ${chrome_options}    add_argument    --no-sandbox
     Call Method    ${chrome_options}    add_argument    --disable-dev-shm-usage
-    # Call Method    ${chrome_options}    add_argument    --headless
+    Call Method    ${chrome_options}    add_argument    --headless
     Create WebDriver    Chrome    options=${chrome_options}
     Maximize Browser Window
     Go To    ${BASE_URL}
