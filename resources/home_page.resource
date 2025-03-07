@@ -9,7 +9,8 @@ ${USER_DATA_DIR}   /home/runner/.config/google-chrome-${USER_DATA_DIR_ID}
 
 *** Keywords ***
 Abrir navegador
-    Create Chrome Options    ${USER_DATA_DIR}
+    ${options}=    Create List    --user-data-dir=${USER_DATA_DIR}    --no-sandbox
+    Create WebDriver    Chrome    options=${options}
     Maximize Browser Window
     Go To    ${BASE_URL}
 
@@ -22,9 +23,3 @@ Acessar página de cadastro
 
 Fechar navegador
     Close Browser
-
-*** Keywords ***
-Create Chrome Options
-    [Arguments]    ${user_data_dir}
-    ${options}=    Create Dictionary    --user-data-dir=${user_data_dir}
-    Create WebDriver    Chrome    options=${options}    arguments=--no-sandbox
