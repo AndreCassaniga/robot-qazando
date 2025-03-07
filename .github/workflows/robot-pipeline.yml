@@ -7,23 +7,33 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest  # ou o sistema operacional de sua escolha
-    
+    runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout do código
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.12'  # ou outra versão de Python que você está utilizando
+      - name: Instalar Google Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install robotframework
-        pip install selenium  # ou outras bibliotecas necessárias
-        pip install robotframework-seleniumlibrary  # Instale a biblioteca do Selenium para o Robot Framework
-    
-    - name: Run Robot Framework Tests
-      run: robot --variable USER_DATA_DIR_ID=${{ github.run_id }} tests/
+      - name: Baixar e configurar o ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d'.' -f1)
+          wget -q "https://chromedriver.storage.googleapis.com/${CHROME_VERSION}.0.0/chromedriver_linux64.zip"
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
+
+      - name: Configurar ambiente Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      - name: Instalar dependências
+        run: |
+          pip install robotframework
+          pip install robotframework-seleniumlibrary
+
+      - name: Rodar testes do Robot Framework
+        run: robot --variable USER_DATA_DIR_ID=${{ github.run_id }} tests/

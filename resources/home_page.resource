@@ -9,8 +9,13 @@ ${USER_DATA_DIR}   /home/runner/.config/google-chrome-${USER_DATA_DIR_ID}
 
 *** Keywords ***
 Abrir navegador
-    ${options}=    Create List    --user-data-dir=${USER_DATA_DIR}    --no-sandbox
-    Create WebDriver    Chrome    options=${options}
+    ${chrome_options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
+    Call Method    ${chrome_options}    add_argument    --headless
+    Call Method    ${chrome_options}    add_argument    --disable-gpu
+    Call Method    ${chrome_options}    add_argument    --no-sandbox
+    Call Method    ${chrome_options}    add_argument    --disable-dev-shm-usage
+    Call Method    ${chrome_options}    add_argument    --user-data-dir=/home/runner/.config/google-chrome-${USER_DATA_DIR_ID}
+    Create WebDriver    Chrome    options=${chrome_options}
     Maximize Browser Window
     Go To    ${BASE_URL}
 
