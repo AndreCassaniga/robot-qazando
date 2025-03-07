@@ -4,8 +4,7 @@ Resource    ../locators/home_locators.resource
 Variables   ../variables/common_variables.py
 
 *** Variables ***
-${USER_DATA_DIR_ID}  ${EMPTY}
-${USER_DATA_DIR}   /home/runner/.config/google-chrome-${USER_DATA_DIR_ID}
+
 
 *** Keywords ***
 Abrir navegador
@@ -14,7 +13,8 @@ Abrir navegador
     Call Method    ${chrome_options}    add_argument    --disable-gpu
     Call Method    ${chrome_options}    add_argument    --no-sandbox
     Call Method    ${chrome_options}    add_argument    --disable-dev-shm-usage
-    Call Method    ${chrome_options}    add_argument    --user-data-dir=/home/runner/.config/google-chrome-${USER_DATA_DIR_ID}
+    
+
     Create WebDriver    Chrome    options=${chrome_options}
     Maximize Browser Window
     Go To    ${BASE_URL}
