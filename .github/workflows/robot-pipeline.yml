@@ -3,7 +3,7 @@ name: Run Robot Framework Tests
 on:
   pull_request:
     branches:
-      - master  # Altere para a branch "master"
+      - master
 
 jobs:
   test:
@@ -12,41 +12,13 @@ jobs:
       - name: Checkout do código
         uses: actions/checkout@v3
 
-      - name: Instalar Google Chrome
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y google-chrome-stable
-
-      - name: Baixar e configurar o ChromeDriver
-        run: |
-            CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d'.' -f1,2)  # Ajuste para extrair a versão principal
-            echo "Versão do Chrome: $CHROME_VERSION"
-    
-            DRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}" || echo "0")
-
-            if [ "$DRIVER_VERSION" = "0" ]; then
-                echo "Erro: Não foi possível encontrar a versão correta do ChromeDriver."
-                exit 1
-            fi
-
-            echo "Versão do ChromeDriver: $DRIVER_VERSION"
-    
-            # Tente baixar o ChromeDriver correspondente à versão encontrada
-            wget -q "https://chromedriver.storage.googleapis.com/${DRIVER_VERSION}/chromedriver_linux64.zip" || { echo "Falha ao baixar o ChromeDriver"; exit 1; }
-    
-            unzip chromedriver_linux64.zip
-            sudo mv chromedriver /usr/local/bin/
-            sudo chmod +x /usr/local/bin/chromedriver
-
-      - name: Configurar ambiente Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.12'
-
       - name: Instalar dependências
         run: |
           pip install robotframework
           pip install robotframework-seleniumlibrary
+          pip install webdriver-manager
 
-      - name: Rodar testes do Robot Framework
-        run: robot tests/
+      - name: Configurar WebDriverManager e Rodar Testes
+        run: |
+          python -c "from webdriver_manager.chrome import ChromeDriverManager; ChromeDriverManager().install()"
+          robot tests/

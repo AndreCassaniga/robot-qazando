@@ -3,9 +3,6 @@ Library    SeleniumLibrary
 Resource    ../locators/home_locators.resource
 Variables   ../variables/common_variables.py
 
-*** Variables ***
-
-
 *** Keywords ***
 Abrir navegador
     ${chrome_options}=    Evaluate    sys.modules['selenium.webdriver'].ChromeOptions()    sys
@@ -13,8 +10,6 @@ Abrir navegador
     Call Method    ${chrome_options}    add_argument    --disable-gpu
     Call Method    ${chrome_options}    add_argument    --no-sandbox
     Call Method    ${chrome_options}    add_argument    --disable-dev-shm-usage
-    
-
     Create WebDriver    Chrome    options=${chrome_options}
     Maximize Browser Window
     Go To    ${BASE_URL}
